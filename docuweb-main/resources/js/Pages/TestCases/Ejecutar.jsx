@@ -1,0 +1,96 @@
+import React from "react";
+import AppLayout from "@/Layouts/AppLayout";
+import { Head, Link, router } from "@inertiajs/react";
+import SuiteTree from "@/Components/SuiteTree";
+
+const estadoColor = {
+    Exitoso: "bg-brand-lime/30 text-green-700",
+    Fallido: "bg-red-100 text-red-700",
+    Bloqueado: "bg-brand-peach text-brand-blue",
+};
+
+export default function Ejecutar({ suites, suiteSeleccionada, casos }) {
+    const seleccionar = (id) => {
+        router.get(route("test-ejecuciones.index"), { suite_id: id }, { preserveState: true });
+    };
+
+    const suiteActual = suites.find((s) => s.id === Number(suiteSeleccionada));
+
+    return (
+        <AppLayout>
+            <Head title="Ejecutar Casos de Prueba" />
+
+            <div className="min-h-screen bg-gray-100">
+                <div className="sticky top-0 z-10 bg-white border-b shadow-sm">
+                    <div className="max-w-7xl mx-auto px-6 py-4">
+                        <h1 className="text-2xl font-bold flex items-center gap-2">
+                            <span className="text-brand-mango text-3xl">▶️</span>
+                            Ejecutar Casos de Prueba
+                        </h1>
+                    </div>
+                </div>
+
+                <div className="max-w-7xl mx-auto px-6 py-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div className="md:col-span-1 bg-white rounded-xl shadow p-4 h-fit">
+                        <h2 className="font-semibold mb-3">📁 Suites</h2>
+                        {suites.length === 0 ? (
+                            <p className="text-sm text-gray-400">
+                                Todavía no hay suites. Creá una en "Preparar Casos de Prueba".
+                            </p>
+                        ) : (
+                            <SuiteTree
+                                suites={suites}
+                                seleccionada={Number(suiteSeleccionada)}
+                                onSelect={seleccionar}
+                            />
+                        )}
+                    </div>
+
+                    <div className="md:col-span-3 bg-white rounded-xl shadow p-6">
+                        <h2 className="text-lg font-semibold mb-4">
+                            Casos de prueba {suiteActual ? `— ${suiteActual.nombre}` : ""}
+                        </h2>
+
+                        <div className="space-y-3">
+                            {casos.map((c, idx) => (
+                                <Link
+                                    key={c.id}
+                                    href={route("test-ejecuciones.show", c.id)}
+                                    className="block border rounded-lg p-4 hover:border-brand-blue hover:shadow-md transition stagger-item"
+                                    style={{ animationDelay: `${Math.min(idx, 12) * 30}ms` }}
+                                >
+                                    <div className="flex justify-between items-center">
+                                        <div>
+                                            <p className="font-semibold">{c.titulo}</p>
+                                            <p className="text-xs text-gray-400 mt-1">
+                                                {c.pasos_count} paso{c.pasos_count === 1 ? "" : "s"}
+                                            </p>
+                                        </div>
+                                        {c.ultima_ejecucion ? (
+                                            <span
+                                                className={`text-xs px-3 py-1 rounded-full ${
+                                                    estadoColor[c.ultima_ejecucion.estado]
+                                                }`}
+                                            >
+                                                Última: {c.ultima_ejecucion.estado}
+                                            </span>
+                                        ) : (
+                                            <span className="text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-500">
+                                                Sin ejecutar
+                                            </span>
+                                        )}
+                                    </div>
+                                </Link>
+                            ))}
+                            {suiteSeleccionada && casos.length === 0 && (
+                                <p className="text-sm text-gray-400">
+                                    Esta suite todavía no tiene casos de prueba.
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </AppLayout>
+    );
+}

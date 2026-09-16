@@ -1,0 +1,28 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: docuweb-app
+    ports:
+      - "8000:8000"
+    environment:
+      APP_NAME: DOCWeb
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8000
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /var/www/html/storage/database/database.sqlite
+      # El servidor embebido de PHP (php artisan serve) es de un solo proceso
+      # por defecto y puede corromper pedidos que llegan al mismo tiempo
+      # (ej. el sondeo de notificaciones superpuesto con guardar un formulario).
+      # Esto le pide varios workers para manejar pedidos en simultáneo.
+      PHP_CLI_SERVER_WORKERS: "4"
+    volumes:
+      - docuweb_database:/var/www/html/storage/database
+      - docuweb_storage:/var/www/html/storage/app
+    restart: unless-stopped
+
+volumes:
+  docuweb_database:
+  docuweb_storage:

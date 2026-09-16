@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   ✨ Movimiento y transiciones globales
+   Objetivo: que la app se sienta viva sin dejar de ser corporativa.
+   Todo esto es CSS "de base": no requiere tocar cada página, se
+   aplica automáticamente a los elementos interactivos existentes.
+   ============================================================ */
+
+@layer base {
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  summary,
+  [role='button'] {
+    transition-property: background-color, color, border-color, box-shadow, transform, opacity;
+    transition-duration: 180ms;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  body {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Respeta a quienes prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Botones principales (degradado azul, usados en toda la app):
+   un leve "levante" al pasar el mouse, sin perder seriedad. */
+.bg-gradient-to-r.rounded-lg:hover,
+.bg-gradient-to-r.rounded-full:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -6px rgba(11, 42, 71, 0.35);
+}
+.bg-gradient-to-r.rounded-lg:active,
+.bg-gradient-to-r.rounded-full:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px -3px rgba(11, 42, 71, 0.3);
+}
+
+/* Tarjetas/filas clickeables con sombra: leve profundidad al hover */
+a.shadow:hover,
+button.shadow:hover,
+a.hover\:border-brand-blue:hover,
+.hover\:shadow-lg:hover {
+  transform: translateY(-1px);
+}
+
+/* Menús desplegables (hamburguesa, notificaciones, ⋮) */
+.animate-fade-in-down,
+.animate-scale-in {
+  transform-origin: top;
+}
+
+/* Barra de progreso de navegación (Inertia) — grosor prolijo */
+#nprogress .bar {
+  height: 3px !important;
+}
+
+/* ============================================================
+   ✨ Filtros y campos de formulario
+   La mayoría de las barras de filtros (Tickets, Documentos,
+   Histórico) usan inputs/selects planos sin ningún estado de foco
+   propio. Les damos un resplandor animado consistente. No pisa a
+   los inputs que YA tienen su propio focus:ring (Login, perfil,
+   etc.) porque esos usan clases más específicas.
+   ============================================================ */
+input:focus:not([class*="focus:ring"]):not([class*="focus:border"]),
+select:focus:not([class*="focus:ring"]):not([class*="focus:border"]),
+textarea:focus:not([class*="focus:ring"]):not([class*="focus:border"]) {
+  outline: none;
+  border-color: #3fa9d1;
+  box-shadow: 0 0 0 3px rgba(63, 169, 209, 0.25);
+}
+
+/* Leve reacción también al pasar el mouse, antes de enfocar */
+input:hover:not(:disabled):not(:focus),
+select:hover:not(:disabled):not(:focus),
+textarea:hover:not(:disabled):not(:focus) {
+  border-color: #9ec8d9;
+}
+
+/* ============================================================
+   ✨ Listas y grillas de resultados (tickets, documentos, casos)
+   Entrada escalonada: los ítems nuevos que aparecen al filtrar o
+   cargar la página entran con un pequeño fade + subida, en vez
+   de aparecer de golpe.
+   ============================================================ */
+.stagger-item {
+  animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* 🎨 Estilos personalizados para contenido enriquecido en Documentación */
+
+.prose iframe {
+  display: block;
+  margin: 2rem auto;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 800px;
+  height: 450px;
+}
+
+.prose pre {
+  background-color: #1e293b !important; /* gris oscuro elegante */
+  color: #f1f5f9 !important; /* texto claro */
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+.prose code {
+  background-color: #f3f4f6;
+  padding: 0.25em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+/* 🧩 Ajustes tipográficos extra */
+.prose h1, .prose h2, .prose h3 {
+  color: #1f2937; /* texto gris oscuro */
+  font-weight: 700;
+}
+
+.prose img {
+  border-radius: 10px;
+  margin: 1.5rem auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}

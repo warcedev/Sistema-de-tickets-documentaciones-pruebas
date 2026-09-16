@@ -1,0 +1,94 @@
+/* ==== Ajustes visuales para el editor React Quill ==== */
+
+/* Contenedor general del editor */
+.quill-wrapper {
+  margin-bottom: 2.5rem; /* separa el editor del siguiente campo */
+}
+
+/* Contenedor interno del área editable */
+.ql-container {
+  min-height: 18rem; /* altura visible (similar a h-72) */
+  border-radius: 0 0 0.5rem 0.5rem;
+  background-color: white;
+}
+
+/* Contenido del editor */
+.ql-editor {
+  min-height: 16rem;
+  line-height: 1.6;
+  padding: 1rem;
+  padding-bottom: 2rem; /* evita que se superponga con labels siguientes */
+}
+
+/* Barra de herramientas (parte superior) */
+.ql-toolbar {
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+/* Ajuste visual de código y bloques */
+.ql-editor pre {
+  background-color: #f5f5f5;
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+  overflow-x: auto;
+}
+
+/* Responsividad */
+@media (max-width: 640px) {
+  .ql-container {
+    min-height: 12rem;
+  }
+  .ql-editor {
+    min-height: 10rem;
+  }
+}
+
+/* Editor compacto para cuadros de comentario (tickets) */
+.quill-comment .ql-container {
+  min-height: 6rem;
+}
+.quill-comment .ql-editor {
+  min-height: 5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.quill-wrapper {
+  margin-bottom: 2.5rem;
+}
+
+.ql-container {
+  min-height: 18rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+  background-color: white;
+}
+
+.ql-editor {
+  min-height: 16rem;
+  line-height: 1.6;
+  padding: 1rem;
+  padding-bottom: 2rem;
+}
+
+.ql-toolbar {
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.ql-editor pre {
+  background-color: #f5f5f5;
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+  overflow-x: auto;
+}
+
+@media (max-width: 640px) {
+  .ql-container {
+    min-height: 12rem;
+  }
+  .ql-editor {
+    min-height: 10rem;
+  }
+}
