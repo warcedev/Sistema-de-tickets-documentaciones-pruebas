@@ -24,6 +24,15 @@ $app = new Illuminate\Foundation\Application(
 $desktopStorage = $_SERVER['DOCWEB_STORAGE_PATH'] ?? $_ENV['DOCWEB_STORAGE_PATH'] ?? getenv('DOCWEB_STORAGE_PATH');
 if ($desktopStorage) {
     $app->useStoragePath($desktopStorage);
+
+    // Windows: el lanzador pasa rutas de caché absolutas tipo "C:\Users\...".
+    // Laravel 9 solo considera absolutas las que empiezan con "/" o "\", y a
+    // las demás les antepone la carpeta de la app (ruta inexistente). Se
+    // registran las letras de unidad como prefijos absolutos.
+    foreach (range('A', 'Z') as $drive) {
+        $app->addAbsoluteCachePathPrefix($drive . ':');
+        $app->addAbsoluteCachePathPrefix(strtolower($drive) . ':');
+    }
 }
 
 /*
