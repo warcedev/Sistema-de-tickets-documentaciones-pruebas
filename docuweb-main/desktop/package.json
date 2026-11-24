@@ -18,7 +18,8 @@
   },
   "devDependencies": {
     "electron": "37.10.3",
-    "electron-builder": "26.0.12"
+    "electron-builder": "26.0.12",
+    "resedit": "3.1.1"
   },
   "build": {
     "appId": "local.docweb.desktop",
@@ -31,7 +32,8 @@
     "files": [
       "main.js",
       "splash.html",
-      "package.json"
+      "package.json",
+      "build-resources/icon.png"
     ],
     "extraResources": [
       {
@@ -59,7 +61,7 @@
       "artifactName": "DOCWeb-${version}-mac-${arch}.${ext}"
     },
     "win": {
-      "icon": "build-resources/icon.png",
+      "icon": "build-resources/icon.ico",
       "target": [
         "nsis",
         "zip"
@@ -74,7 +76,9 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "DOCWeb",
-      "artifactName": "DOCWeb-${version}-windows-instalador.${ext}"
+      "artifactName": "DOCWeb-${version}-windows-instalador.${ext}",
+      "installerIcon": "build-resources/icon.ico",
+      "uninstallerIcon": "build-resources/icon.ico"
     }
   }
 }
