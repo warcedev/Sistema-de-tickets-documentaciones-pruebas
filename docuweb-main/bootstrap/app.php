@@ -16,6 +16,17 @@ $app = new Illuminate\Foundation\Application(
 );
 
 /*
+| App de escritorio (desktop/): la carpeta de la aplicación instalada es de
+| solo lectura, así que el lanzador indica dónde guardar storage (archivos
+| subidos, sesiones, vistas compiladas, logs). Sin la variable, todo sigue
+| igual que siempre (Docker / desarrollo).
+*/
+$desktopStorage = $_SERVER['DOCWEB_STORAGE_PATH'] ?? $_ENV['DOCWEB_STORAGE_PATH'] ?? getenv('DOCWEB_STORAGE_PATH');
+if ($desktopStorage) {
+    $app->useStoragePath($desktopStorage);
+}
+
+/*
 |--------------------------------------------------------------------------
 | Bind Important Interfaces
 |--------------------------------------------------------------------------

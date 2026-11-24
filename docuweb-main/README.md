@@ -81,6 +81,13 @@ docker compose exec app bash                    # abrir una shell
 
 (También podés usar `make shell`, `make logs`, etc. — ver el `Makefile`.)
 
+## 🖥️ App de escritorio (Mac / Windows) para demos
+
+También se puede distribuir como un programa normal (`.dmg` para Mac,
+instalador `.exe` para Windows) que no necesita Docker ni nada instalado:
+se abre con doble clic y funciona. Cómo armarlo y cómo instalarlo:
+[`desktop/README.md`](desktop/README.md).
+
 ## 🧠 Stack técnico
 
 - **Backend:** Laravel 9 (PHP 8.3)

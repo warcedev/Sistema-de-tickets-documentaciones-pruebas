@@ -1,0 +1,50 @@
+# Arma los instaladores de la app de escritorio (docuweb-main/desktop)
+# en máquinas nativas de Mac y Windows. Se corre a mano desde la pestaña
+# Actions ("Run workflow"); los instaladores quedan como artifacts del run.
+name: Desktop build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            target: mac
+            builder: --mac --x64 --arm64
+          - os: windows-latest
+            target: win
+            builder: --win --x64 -c.win.signAndEditExecutable=true
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: docuweb-main/desktop
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+
+      - run: npm install
+
+      - run: node scripts/prepare.js ${{ matrix.target }}
+
+      - run: npx electron-builder ${{ matrix.builder }} --publish never
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DOCWeb-${{ matrix.target }}
+          path: |
+            docuweb-main/desktop/dist/*.dmg
+            docuweb-main/desktop/dist/*.exe
+            docuweb-main/desktop/dist/*.zip
+          if-no-files-found: error

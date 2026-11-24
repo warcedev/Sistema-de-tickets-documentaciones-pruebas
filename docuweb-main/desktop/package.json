@@ -1,0 +1,80 @@
+{
+  "name": "docweb-desktop",
+  "productName": "DOCWeb",
+  "version": "1.0.0",
+  "description": "DOCWeb como aplicación de escritorio (Mac y Windows)",
+  "main": "main.js",
+  "private": true,
+  "author": "DOCWeb",
+  "scripts": {
+    "prepare:mac": "node scripts/prepare.js mac",
+    "prepare:win": "node scripts/prepare.js win",
+    "prepare:all": "node scripts/prepare.js mac win",
+    "start": "node scripts/prepare.js current && electron .",
+    "dev": "electron .",
+    "build:mac": "node scripts/prepare.js mac && electron-builder --mac --x64 --arm64",
+    "build:win": "node scripts/prepare.js win && electron-builder --win --x64",
+    "build:all": "node scripts/prepare.js mac win && electron-builder --mac --x64 --arm64 && electron-builder --win --x64"
+  },
+  "devDependencies": {
+    "electron": "37.10.3",
+    "electron-builder": "26.0.12"
+  },
+  "build": {
+    "appId": "local.docweb.desktop",
+    "productName": "DOCWeb",
+    "copyright": "DOCWeb",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build-resources"
+    },
+    "files": [
+      "main.js",
+      "splash.html",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "build/laravel",
+        "to": "laravel"
+      },
+      {
+        "from": "build/php/${os}-${arch}",
+        "to": "php"
+      }
+    ],
+    "afterPack": "scripts/after-pack.js",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "icon": "build-resources/icon.png",
+      "identity": null,
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "target": [
+        "dmg"
+      ]
+    },
+    "dmg": {
+      "title": "DOCWeb ${version}",
+      "artifactName": "DOCWeb-${version}-mac-${arch}.${ext}"
+    },
+    "win": {
+      "icon": "build-resources/icon.png",
+      "target": [
+        "nsis",
+        "zip"
+      ],
+      "signAndEditExecutable": false,
+      "artifactName": "DOCWeb-${version}-windows-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "DOCWeb",
+      "artifactName": "DOCWeb-${version}-windows-instalador.${ext}"
+    }
+  }
+}

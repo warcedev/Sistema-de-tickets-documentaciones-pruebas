@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>DOCWeb</title>
+<style>
+  html, body { margin: 0; height: 100%; }
+  body {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #fff; color: #222; user-select: none;
+  }
+  h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: .5px; }
+  h1 span { color: #e5620c; }
+  #status { color: #666; font-size: 14px; min-height: 20px; }
+  .spinner {
+    width: 36px; height: 36px; margin: 28px 0 18px;
+    border: 4px solid #f1d3bf; border-top-color: #e5620c; border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #error { display: none; max-width: 620px; padding: 0 24px; text-align: center; }
+  #error pre {
+    text-align: left; white-space: pre-wrap; font-size: 12px; background: #f6f6f6;
+    padding: 12px; border-radius: 6px; max-height: 220px; overflow: auto;
+  }
+  body.failed .spinner { display: none; }
+  body.failed #error { display: block; }
+</style>
+</head>
+<body>
+  <h1>DOC<span>Web</span></h1>
+  <div class="spinner"></div>
+  <div id="status">Iniciando…</div>
+  <div id="error">
+    <p><strong>No se pudo iniciar la aplicación.</strong></p>
+    <pre id="error-detail"></pre>
+    <p style="color:#666;font-size:13px">Menú <em>DOCWeb → Abrir carpeta de datos</em> para ver el log completo (logs/desktop.log).</p>
+  </div>
+  <script>
+    window.setStatus = (t) => { document.getElementById('status').textContent = t; };
+    window.setError = (t) => {
+      document.body.classList.add('failed');
+      document.getElementById('status').textContent = '';
+      document.getElementById('error-detail').textContent = t;
+    };
+  </script>
+</body>
+</html>
